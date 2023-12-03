@@ -34,8 +34,11 @@ def print_tabla(origenes, n, optimos):
         for i in destinos:
             solucion = [diccionario[i]]
             for j in range(len(origenes)):
-                solucion.append(str(calcular_distancia(i, origenes[j], int(optimos[j]))))
-            solucion.append(str(max(solucion[1:])))
+                if i != -1 or origenes[j] != -1:
+                    solucion.append(str(calcular_distancia(i, origenes[j], int(optimos[j]))))
+                    solucion.append(str(max(solucion[1:])))
+                else:
+                    pass
             nuevos_optimos.append(max(solucion[1:]))
             soluciones.append(solucion)
         for s in soluciones:
