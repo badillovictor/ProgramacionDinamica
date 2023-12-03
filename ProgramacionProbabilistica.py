@@ -55,19 +55,19 @@ def print_tabla_posterior(n, diccionario):
         print(encabezado)
         nuevodict = {}
         keys = list(diccionario.keys())
-        for e in diccionario.keys():
-            solucion = [str(e)]
+        for e in range(len(diccionario) - 1):
+            solucion = [str(keys[e])]
             if e == 0:
                 solucion.append('0')
                 solucion.append('0')
             else:
-                solucion.append(str(calcular_probA(e, diccionario[e - 5000], diccionario[e + 5000])))
-                solucion.append(str(calcular_probB(e, diccionario[e], diccionario[e + 5000])))
+                solucion.append(str(calcular_probA(keys[e], diccionario[keys[e] - 5000], diccionario[keys[e] + 5000])))
+                solucion.append(str(calcular_probB(keys[e], diccionario[keys[e]], diccionario[keys[e] + 5000])))
             solucion.append(str(max(solucion[1:])))
-            nuevodict[e] = int(max(solucion[1:]))
+            nuevodict[keys[e]] = int(max(solucion[1:]))
             print('\t'.join(solucion))
         print('\n')
-    print_tabla_posterior(n - 1, nuevodict)
+        print_tabla_posterior(n - 1, nuevodict)
 
 
 if __name__ == '__main__':
