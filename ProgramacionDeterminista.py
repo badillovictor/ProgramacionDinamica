@@ -1,5 +1,8 @@
 def calcular_distancia(origen, destino, futuro):
-    return grafo[destino][origen] + futuro
+    if grafo[destino][origen] != -1:
+        return grafo[destino][origen] + futuro
+    else:
+        return 0
 
 
 def obtener_destinos(origen):
@@ -34,11 +37,8 @@ def print_tabla(origenes, n, optimos):
         for i in destinos:
             solucion = [diccionario[i]]
             for j in range(len(origenes)):
-                if i != -1 or origenes[j] != -1:
-                    solucion.append(str(calcular_distancia(i, origenes[j], int(optimos[j]))))
-                    solucion.append(str(max(solucion[1:])))
-                else:
-                    pass
+                solucion.append(str(calcular_distancia(i, origenes[j], int(optimos[j]))))
+            solucion.append(str(max(solucion[1:])))
             nuevos_optimos.append(max(solucion[1:]))
             soluciones.append(solucion)
         for s in soluciones:
