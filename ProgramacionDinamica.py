@@ -19,25 +19,28 @@ def obtener_origenes(destino):
 
 
 def print_tabla(origenes, n):
-    encabezado = '\t'.join(['s{0}'.format(n),
-                          '\t'.join([diccionario[i] for i in origenes]),
-                          'f*(s{0})'.format(n)
-                          #,'x*({0})'.format(n),
-                          ])
-    print(encabezado)
-    destinos = set()
-    for e in origenes:
-        destinos.update(obtener_destinos(e))
-    soluciones = []
-    for i in destinos:
-        solucion = []
-        solucion.append(diccionario[i])
-        for j in origenes:
-            solucion.append(str(calcular_distancia(i, j)))
-        solucion.append(str(min(solucion[1:])))
-        soluciones.append(solucion)
-    for s in soluciones:
-        print('\t'.join(s))
+    if not n == 0:
+        encabezado = '\t'.join(['s{0}'.format(n),
+                              '\t'.join([diccionario[i] for i in origenes]),
+                              'f*(s{0})'.format(n)
+                              #,'x*({0})'.format(n),
+                              ])
+        print(encabezado)
+        destinos = set()
+        for e in origenes:
+            destinos.update(obtener_destinos(e))
+        soluciones = []
+        for i in destinos:
+            solucion = []
+            solucion.append(diccionario[i])
+            for j in origenes:
+                solucion.append(str(calcular_distancia(i, j)))
+            solucion.append(str(min(solucion[1:])))
+            soluciones.append(solucion)
+        for s in soluciones:
+            print('\t'.join(s))
+        print('\n')
+        print_tabla(destinos, n-1)
 
 
 
