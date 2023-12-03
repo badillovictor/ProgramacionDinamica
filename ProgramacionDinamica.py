@@ -1,4 +1,4 @@
-def calcular_distancia(origen, destino, futuro = 0):
+def calcular_distancia(origen, destino, futuro):
     return grafo[destino][origen] + futuro
 
 
@@ -18,30 +18,30 @@ def obtener_origenes(destino):
     return origenes
 
 
-def print_tabla(origenes, n):
+def print_tabla(origenes, n, optimos):
     if not n == 0:
         encabezado = '\t'.join(['s{0}'.format(n),
-                              '\t'.join([diccionario[i] for i in origenes]),
-                              'f*(s{0})'.format(n)
-                              #,'x*({0})'.format(n),
-                              ])
+                                '\t'.join([diccionario[i] for i in origenes]),
+                                'f*(s{0})'.format(n)
+                                # ,'x*({0})'.format(n),
+                                ])
         print(encabezado)
         destinos = set()
         for e in origenes:
             destinos.update(obtener_destinos(e))
         soluciones = []
+        nuevos_optimos = []
         for i in destinos:
-            solucion = []
-            solucion.append(diccionario[i])
-            for j in origenes:
-                solucion.append(str(calcular_distancia(i, j)))
+            solucion = [diccionario[i]]
+            for j in range(len(origenes)):
+                solucion.append(str(calcular_distancia(i, origenes[j], int(optimos[j]))))
             solucion.append(str(min(solucion[1:])))
+            nuevos_optimos.append(min(solucion[1:]))
             soluciones.append(solucion)
         for s in soluciones:
             print('\t'.join(s))
         print('\n')
-        print_tabla(destinos, n-1)
-
+        print_tabla(list(destinos), n - 1, nuevos_optimos)
 
 
 grafo = [
@@ -71,4 +71,4 @@ diccionario = {
 }
 
 if __name__ == '__main__':
-    print_tabla([0], 4)
+    print_tabla([0], 4, [0])
