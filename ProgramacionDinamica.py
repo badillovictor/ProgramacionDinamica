@@ -1,11 +1,11 @@
-def calcular_distancia(origen, destino, futuro):
-    return grafo[origen][destino] + futuro
+def calcular_distancia(origen, destino, futuro = 0):
+    return grafo[destino][origen] + futuro
 
 
 def obtener_destinos(origen):
     destinos = []
-    for i in range(len(origen)):
-        if not origen[i] == 100:
+    for i in range(len(grafo[origen])):
+        if not grafo[origen][i] == 100:
             destinos.append(i)
     return destinos
 
@@ -21,13 +21,23 @@ def obtener_origenes(destino):
 def print_tabla(origenes, n):
     encabezado = '\t'.join(['s{0}'.format(n),
                           '\t'.join([diccionario[i] for i in origenes]),
-                          'f*(s{0})'.format(n),
-                          'x*({0})'.format(n),
+                          'f*(s{0})'.format(n)
+                          #,'x*({0})'.format(n),
                           ])
     print(encabezado)
     destinos = set()
     for e in origenes:
         destinos.update(obtener_destinos(e))
+    soluciones = []
+    for i in destinos:
+        solucion = []
+        solucion.append(diccionario[i])
+        for j in origenes:
+            solucion.append(str(calcular_distancia(i, j)))
+        solucion.append(str(min(solucion[1:])))
+        soluciones.append(solucion)
+    for s in soluciones:
+        print('\t'.join(s))
 
 
 
