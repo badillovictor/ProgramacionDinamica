@@ -2,28 +2,28 @@ def calcular_probA_inicial(actual):
     if actual == 0:
         return 0
     else:
-        return 0.3 * (actual - 5000) + 0.7 * (actual + 5000)
+        return int(0.3 * (actual - 5000) + 0.7 * (actual + 5000))
 
 
 def calcular_probB_inicial(actual):
     if actual == 0:
         return 0
     else:
-        return 0.9 * actual + 0.1 * (actual + 5000)
+        return int(0.9 * actual + 0.1 * (actual + 5000))
 
 
 def calcular_probA(actual, x, y):
     if actual == 0:
         return 0
     else:
-        return 0.3 * x + 0.7 * y
+        return int(0.3 * x + 0.7 * y)
 
 
 def calcular_probB(actual, x, y):
     if actual == 0:
         return 0
     else:
-        return 0.9 * x + 0.1 * (actual + y)
+        return int(0.9 * x + 0.1 * y)
 
 
 def print_tabla_inicial(n, diccionario):
@@ -38,8 +38,8 @@ def print_tabla_inicial(n, diccionario):
         solucion = [str(diccionario[e])]
         solucion.append(str(calcular_probA_inicial(diccionario[e])))
         solucion.append(str(calcular_probB_inicial(diccionario[e])))
-        temp = solucion.append(str(max(solucion[1:])))
-        nuevodict.update(diccionario[e], temp)
+        solucion.append(str(max(solucion[1:])))
+        nuevodict[diccionario[e]] = int(float(max(solucion[1:])))
         print('\t'.join(solucion))
     print('\n')
     print_tabla_posterior(n-1, nuevodict)
@@ -53,13 +53,21 @@ def print_tabla_posterior(n, diccionario):
                                 # ,'x*({0})'.format(n),
                                 ])
         print(encabezado)
-        for e in diccionario:
-            solucion = [str(diccionario[e])]
-            solucion.append(str(calcular_probA_inicial(diccionario[e])))
-            solucion.append(str(calcular_probB_inicial(diccionario[e])))
+        nuevodict = {}
+        keys = list(diccionario.keys())
+        for e in diccionario.keys():
+            solucion = [str(e)]
+            if e == 0:
+                solucion.append('0')
+                solucion.append('0')
+            else:
+                solucion.append(str(calcular_probA(e, diccionario[e - 5000], diccionario[e + 5000])))
+                solucion.append(str(calcular_probB(e, diccionario[e], diccionario[e + 5000])))
             solucion.append(str(max(solucion[1:])))
+            nuevodict[e] = int(max(solucion[1:]))
             print('\t'.join(solucion))
         print('\n')
+    print_tabla_posterior(n - 1, nuevodict)
 
 
 if __name__ == '__main__':
